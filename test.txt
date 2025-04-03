@@ -1,0 +1,6 @@
+Hi everyone, Kevin here. Today we're going to look at how you can take speech
+and turn it into text using AI. And the really crazy thing is that it does a
+better job than most humans. You can use it with English and 96 other languages.
+It works even if you have a lot of background noise. And it also works if
+you have a very sick accent. The best part is that it's completely free and
+also open source. Let's check out how to do this.

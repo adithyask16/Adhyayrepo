@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Meeting Assistant</title>
+</head>
+<body>
+    <h1>AI-Powered Smart Meeting Assistant</h1>
+
+    <!-- Upload Audio for Transcription -->
+    <h2>Transcribe Audio</h2>
+    <input type="file" id="audioFile">
+    <button onclick="transcribe()">Upload & Transcribe</button>
+    <p id="transcription"></p>
+
+    <!-- Summarization -->
+    <h2>Summarize Text</h2>
+    <textarea id="textInput" placeholder="Enter text to summarize"></textarea>
+    <button onclick="summarize()">Summarize</button>
+    <p id="summary"></p>
+
+    <script>
+        async function transcribe() {
+            let fileInput = document.getElementById("audioFile").files[0];
+            if (!fileInput) {
+                alert("Please select a file!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput);
+
+            let response = await fetch("http://127.0.0.1:5000/transcribe", {
+                method: "POST",
+                body: formData
+            });
+
+            let data = await response.json();
+            document.getElementById("transcription").innerText = data.transcription || "Error in transcription";
+        }
+
+        async function summarize() {
+            let text = document.getElementById("textInput").value;
+            if (!text) {
+                alert("Please enter text to summarize!");
+                return;
+            }
+
+            let response = await fetch("http://127.0.0.1:5000/summarize", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: text })
+            });
+
+            let data = await response.json();
+            document.getElementById("summary").innerText = data.summary || "Error in summarization";
+        }
+    </script>
+</body>
+</html>

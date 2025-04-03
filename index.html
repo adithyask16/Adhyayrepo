@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP3 Transcription</title>
+</head>
+<body>
+    <h2>Upload MP3 File for Transcription</h2>
+    <input type="file" id="audioFile">
+    <button onclick="uploadFile()">Transcribe</button>
+    <h3>Transcription:</h3>
+    <p id="transcription"></p>
+
+    <script>
+        function uploadFile() {
+            let fileInput = document.getElementById("audioFile").files[0];
+            if (!fileInput) {
+                alert("Please select a file first.");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput);
+
+            fetch("http://127.0.0.1:5000/transcribe", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("transcription").innerText = data.transcription;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
